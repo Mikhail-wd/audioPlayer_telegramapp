@@ -85,7 +85,7 @@ export default function Player({ playlist = [] }) {
   }
 
   function updateRotation(value, event) {
-    audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 178)
+    audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 175)
     setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 178))
   }
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function Player({ playlist = [] }) {
 
     Draggable.create(".arch-red", {
       type: "rotation",
-      bounds: { maxX: 12.5, minX: 170 },
+      bounds: { maxX: 14.5, minX: 175 },
       onDrag: (e) => {
         updateRotation(".arch-red", e)
         tlVolume.current.to(".sound", {

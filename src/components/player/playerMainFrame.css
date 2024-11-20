@@ -404,12 +404,12 @@
     }
 
     .audio-controll {
-        padding-right: 75px;
+        padding-right: 80px;
     }
 
     .arch-red {
         top: 62px;
-        left: -60px;
+        left: -63px;
     }
 
     .arch-red,
@@ -427,7 +427,7 @@
     }
 
     .arch-black {
-        left: -61px;
+        left: -63px;
         top: -65px;
         height: 129px;
     }
