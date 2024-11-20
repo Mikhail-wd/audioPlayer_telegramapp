@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Product";
+  src: url(./fonts/productsans.ttf);
+}
+:root {
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 100%;
+  font-family: "Product", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(150, 149, 149);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.regular-block {
+  max-width: 950px;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 8px;
+}
