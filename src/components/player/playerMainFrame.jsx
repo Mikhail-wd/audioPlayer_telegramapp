@@ -19,13 +19,13 @@ import audio from "../../audio/stylish-deep-electronic.mp3"
 
 gsap.registerPlugin(Draggable)
 
-export default function Player({ playlist = [] }) {
+export default function Player({ playlist = [], togglePL, selectedTrack, setActiveTrack }) {
   const settedVolume = useRef();
   settedVolume.current = 0.5
   const [compState, setCompState] = useState({
     playing: false,
     data: playlist,
-    activeTrack: 0
+    activeTrack: selectedTrack
   })
   const [startDuration, setStartDuration] = useState(0)
   const [totalDuration, setDuration] = useState(0)
@@ -51,25 +51,34 @@ export default function Player({ playlist = [] }) {
       return hours + ":" + minutes + ":" + seconds
     }
   }
+  function delayToggle() {
+    setTimeout(() => { togglePL() }, 400)
+  }
   function nextTrack() {
     setStartDuration(0)
     // gsap.to(".arch-red", { rotate: 90 })
     // setVolume(settedVolume.current)
-    if (compState.activeTrack === compState.data.length - 1) {
+    if (selectedTrack === compState.data.length - 1) {
       setCompState({ ...compState, activeTrack: 0 })
+      setActiveTrack(0)
     } else {
       setCompState({ ...compState, activeTrack: compState.activeTrack + 1 })
+      setActiveTrack(selectedTrack + 1)
     }
   }
+
   function prevTrack() {
     setStartDuration(0)
     // setVolume(settedVolume.current)
-    if (compState.activeTrack === 0) {
-      setCompState({ ...compState, activeTrack: compState.data.length - 1 })
+    if (selectedTrack === 0) {
+      setCompState({ ...compState, activeTrack: playlist.length })
+      setActiveTrack(playlist.length-1)
     } else {
       setCompState({ ...compState, activeTrack: compState.activeTrack - 1 })
+      setActiveTrack(selectedTrack - 1)
     }
   }
+
   function endedTrack() {
     setCompState({ ...compState, playing: false })
     setStartDuration(audioPlayer.current.duration)
@@ -88,6 +97,7 @@ export default function Player({ playlist = [] }) {
     audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 175)
     setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 178))
   }
+
   useEffect(() => {
     tlVinil.current = gsap.timeline({ paused: true })
     tlStick.current = gsap.timeline({ paused: true })
@@ -122,7 +132,7 @@ export default function Player({ playlist = [] }) {
       clearInterval(playerTimer)
     }
     return () => clearInterval(playerTimer)
-  }, [compState])
+  }, [compState, selectedTrack])
 
   useEffect(() => {
     audioPlayer.current.volume = startVolume
@@ -141,13 +151,13 @@ export default function Player({ playlist = [] }) {
         <audio
           className="audio-player"
           ref={audioPlayer}
-          src={compState.data.length > 0 ? compState.data[compState.activeTrack].src : null}
+          src={compState.data.length > 0 ? compState.data[selectedTrack].src : null}
           preload="auto"
           volume
           onEnded={() => endedTrack()}
         ></audio>
         <div class="right-col-controll" >
-          <h1>{compState.data[compState.activeTrack].name} / {compState.data[compState.activeTrack].title}</h1>
+          <h1>{compState.data[selectedTrack].name} / {compState.data[selectedTrack].title}</h1>
           <div className="controll-button">
             <div className="controll-back">
               <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG" onClick={() => prevTrack()}>
@@ -173,13 +183,13 @@ export default function Player({ playlist = [] }) {
               </div>
             </div>
             <div className="controll-playlist">
-              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG">
+              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG" onClick={() => { delayToggle() }}>
                 <div style={{ backgroundImage: `url(${List})` }} className="button-list"></div>
               </div>
             </div>
           </div>
           <div className="duration">
-            {audioPlayer.current?.duration !== 0 || audioPlayer.current?.duration !== NaN ?
+            {audioPlayer.current?.duration !== 0 ?
               <p>Duration {totalTime(startDuration)} / {totalTime(totalDuration)}</p> :
               <p>Duration : 00:00 / 00:00</p>
             }

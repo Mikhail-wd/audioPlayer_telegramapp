@@ -1,0 +1,118 @@
+.playList {
+    width: 810px;
+    position: absolute;
+    margin-bottom: 140px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: -1;
+    background: linear-gradient(180deg, #997981 21%, #DCCFCD 91%);
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    flex-wrap: nowrap;
+    align-items: normal
+}
+
+.slider-block {
+    position: absolute;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background-color: #8B8B97;
+    background-image: url("../../img/sound.svg");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    z-index: 10;
+    opacity: 1;
+}
+
+.active {
+    background-color: #8B8B97;
+}
+
+.innerList-rightScroller {
+    opacity: 0;
+    width: 5px;
+    flex-shrink: 10;
+    margin-top: 20px;
+    height: 80%;
+    position: relative;
+    right: 10px;
+    border-radius: 20px;
+    background-color: black;
+}
+
+.innerListSlide {}
+
+.innerList {
+    flex-grow: 10;
+    opacity: 0;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 80%;
+    overflow: hidden;
+    line-height: 23px;
+}
+
+.innerList p {
+    padding-left: 4px;
+    padding-right: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px
+}
+
+.hideMahName {
+    flex-grow: 10;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width:880px) {
+    .playList {
+        width: 567px;
+        margin-bottom: 105px;
+    }
+}
+
+@media screen and (max-width:640px) {
+    .playList {
+        width: 397px;
+        margin-bottom: 75px;
+    }
+}
+
+@media screen and (max-width:410px) {
+    .playList {
+        width: 356px;
+    }
+}
+
+@media screen and (max-width:390px) {
+    .playList {
+        width: 348px;
+    }
+}
+
+@media screen and (max-width:370px) {
+    .playList {
+        width: 342px;
+    }
+}
+
+@media screen and (max-width:350px) {
+    .playList {
+        width: 322px;
+    }
+}
+
+@media screen and (max-width:320px) {
+    .playList {
+        width: 305px;
+    }
+}
