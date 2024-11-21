@@ -12,7 +12,7 @@ export default function PlayList({ togglePL, playlist = [], setActiveTrack, sele
     useLayoutEffect(() => {
         if (togglePL) {
             gsap.to(playListElem.current, {
-                height: "calc(100dvh - 150px)",
+                height: "calc(100dvh - 100px)",
             })
             gsap.to(".innerList", {
                 opacity: 1,

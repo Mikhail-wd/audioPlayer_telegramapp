@@ -19,7 +19,7 @@ import audio from "../../audio/stylish-deep-electronic.mp3"
 
 gsap.registerPlugin(Draggable)
 
-export default function Player({ playlist = [], togglePL, selectedTrack, setActiveTrack }) {
+export default function Player({ playlist = [], togglePL, selectedTrack, setActiveTrack, trackPlaying }) {
   const settedVolume = useRef();
   settedVolume.current = 0.5
   const [compState, setCompState] = useState({
@@ -71,7 +71,7 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
     // setVolume(settedVolume.current)
     if (selectedTrack === 0) {
       setCompState({ ...compState, activeTrack: playlist.length })
-      setActiveTrack(playlist.length-1)
+      setActiveTrack(playlist.length - 1)
     } else {
       setCompState({ ...compState, activeTrack: compState.activeTrack - 1 })
       setActiveTrack(selectedTrack - 1)
@@ -80,18 +80,27 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
   function endedTrack() {
     setCompState({ ...compState, playing: false })
     setStartDuration(audioPlayer.current.duration)
+    trackPlaying(false)
   }
-  function TogglePlay() {
+  function TogglePlay(value) {
     if (startDuration >= totalDuration) {
       setStartDuration(0)
+      trackPlaying(false)
     } else if (startDuration <= totalDuration) {
       setStartDuration(audioPlayer.current.currentTime)
+      trackPlaying(true)
+    } ElementInternals
+    if (!compState.playing) {
+      setCompState({ ...compState, playing: true })
+      trackPlaying(true)
+    } else {
+      setCompState({ ...compState, playing: false })
+      trackPlaying(false)
     }
-    setCompState({ ...compState, playing: !compState.playing })
   }
   function updateRotation(value, event) {
-    audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 175)
-    setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 178))
+    audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 174)
+    setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 174))
   }
   useEffect(() => {
     tlVinil.current = gsap.timeline({ paused: true })
@@ -102,11 +111,11 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
 
     Draggable.create(".arch-red", {
       type: "rotation",
-      bounds: { maxX: 14.5, minX: 175 },
+      bounds: { maxX: 14.5, minX: 174 },
       onDrag: (e) => {
         updateRotation(".arch-red", e)
         tlVolume.current.to(".sound", {
-          rotation: gsap.utils.clamp(11.5, 175, Math.ceil(gsap.getProperty(".arch-red", "rotation")))
+          rotation: gsap.utils.clamp(11.5, 174, Math.ceil(gsap.getProperty(".arch-red", "rotation")))
         })
       }
     })
@@ -158,7 +167,7 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
               </div>
             </div>
             <div className="controll-playorpayse">
-              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG" onClick={() => TogglePlay()}>
+              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG" onClick={() => TogglePlay(compState.playing)}>
                 {compState.playing ?
                   <>
                     <div style={{ backgroundImage: `url(${Play})` }} className="button-play" ></div>
