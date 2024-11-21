@@ -66,7 +66,6 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
       setActiveTrack(selectedTrack + 1)
     }
   }
-
   function prevTrack() {
     setStartDuration(0)
     // setVolume(settedVolume.current)
@@ -78,12 +77,10 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
       setActiveTrack(selectedTrack - 1)
     }
   }
-
   function endedTrack() {
     setCompState({ ...compState, playing: false })
     setStartDuration(audioPlayer.current.duration)
   }
-
   function TogglePlay() {
     if (startDuration >= totalDuration) {
       setStartDuration(0)
@@ -92,12 +89,10 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
     }
     setCompState({ ...compState, playing: !compState.playing })
   }
-
   function updateRotation(value, event) {
     audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 175)
     setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 178))
   }
-
   useEffect(() => {
     tlVinil.current = gsap.timeline({ paused: true })
     tlStick.current = gsap.timeline({ paused: true })
@@ -116,7 +111,6 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
       }
     })
   }, [])
-
   useEffect(() => {
     const playerTimer = setInterval(() => {
       setStartDuration(prev => prev + 1)
@@ -133,7 +127,6 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
     }
     return () => clearInterval(playerTimer)
   }, [compState, selectedTrack])
-
   useEffect(() => {
     audioPlayer.current.volume = startVolume
     setDuration(audioPlayer.current.duration)
