@@ -340,9 +340,9 @@ function App() {
   function togglePL() {
     setTogglePlaylist(!togglePlayList)
   }
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isPlaying) {
-      gsap.to(".vintageBGWaves", { opacity: 1, duration: 4 })
+      gsap.to(".vintageBGWaves", { opacity: 1, duration: 2 })
     } else {
       gsap.to(".vintageBGWaves", { opacity: 0, duration: 1 })
     }

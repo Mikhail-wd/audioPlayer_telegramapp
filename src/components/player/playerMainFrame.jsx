@@ -25,7 +25,7 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
   const [compState, setCompState] = useState({
     playing: false,
     data: playlist,
-    activeTrack: selectedTrack
+    activeTrack: selectedTrack,
   })
   const [startDuration, setStartDuration] = useState(0)
   const [totalDuration, setDuration] = useState(0)
@@ -82,27 +82,23 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
     setStartDuration(audioPlayer.current.duration)
     trackPlaying(false)
   }
-  function TogglePlay(value) {
-    if (startDuration >= totalDuration) {
-      setStartDuration(0)
-      trackPlaying(false)
-    } else if (startDuration <= totalDuration) {
-      setStartDuration(audioPlayer.current.currentTime)
-      trackPlaying(true)
-    } ElementInternals
+  function TogglePlay() {
     if (!compState.playing) {
       setCompState({ ...compState, playing: true })
       trackPlaying(true)
-    } else {
-      setCompState({ ...compState, playing: false })
-      trackPlaying(false)
+    } else if (compState.playing) {
+      setTimeout(() => {
+        setCompState({ ...compState, playing: false })
+        trackPlaying(false)
+      }, 1000)
     }
+
   }
   function updateRotation(value, event) {
     audioPlayer.current.volume = 1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 174)
     setVolume(1 - (Math.ceil(gsap.getProperty(value, "rotation")) / 174))
   }
-  useEffect(() => {
+  useLayoutEffect(() => {
     tlVinil.current = gsap.timeline({ paused: true })
     tlStick.current = gsap.timeline({ paused: true })
     tlVolume.current = gsap.timeline({ paused: true })
@@ -120,7 +116,7 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
       }
     })
   }, [])
-  useEffect(() => {
+  useLayoutEffect(() => {
     const playerTimer = setInterval(() => {
       setStartDuration(prev => prev + 1)
     }, 1000)
@@ -167,7 +163,8 @@ export default function Player({ playlist = [], togglePL, selectedTrack, setActi
               </div>
             </div>
             <div className="controll-playorpayse">
-              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG" onClick={() => TogglePlay(compState.playing)}>
+              <div style={{ backgroundImage: `url(${BTNback})` }} className="buttonBG"
+                onClick={() => TogglePlay()}>
                 {compState.playing ?
                   <>
                     <div style={{ backgroundImage: `url(${Play})` }} className="button-play" ></div>
